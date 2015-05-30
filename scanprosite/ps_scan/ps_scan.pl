@@ -34,7 +34,6 @@ use IO::File;
 use Carp qw(confess cluck);
 use vars qw(@ISA $VERSION $errpos $errstr);
 use strict;
-use Data::Dumper;
 
 
 ################################################################################
@@ -726,7 +725,7 @@ Selection:
 
 Pattern option:
   -x <number> : specify maximum number of accepted matches of X's in
-                sequence (default=1)
+                sequence (default=0)
   -g          : Turn greediness off
   -v          : Turn overlaps off
   -i          : Allow included matches
@@ -972,7 +971,6 @@ my $postProcessDispatchTable = {
     'EVALUATED_BY' => sub {
         my ( $target, $effector, $mp_ac ) = @_;
         # note $effector is empty as matches will be calculated here!
-
         return unless $target and $mp_ac;
 
         my $sequence = $target->[0]->[4] or return;
@@ -1008,6 +1006,7 @@ my $postProcessDispatchTable = {
         $/ = "\n";
         # if no miniprofile correspond to pattern then no evaluation
         return unless $mini_exist;
+
         my $struct = do_profile_scan( $mini_tmpfile, undef, $sequence );
         # returned: hash ref where key = mini profile AC or AC|ID!
         # take first (and only) value

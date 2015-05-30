@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export qpath=$1
+export dpath="$HOME/pfam"
+export par=8
+
+for i in `seq 0 $((par-1))`; do
+  perl ps_scan.pl -d $qpath $dpath/pfamseq_$i > ${qpath}.res.$i &
+done
+wait
