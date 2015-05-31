@@ -33,8 +33,12 @@ def main(argv):
       outputfile = arg
   if inputfile == '':
     print "Must provide valid input file"
+    print 'PfamParse.py -i <inputfile> -o <outputfile>'
+    sys.exit(2)
   if outputfile == '':
     print "Must provide valid output file"
+    print 'PfamParse.py -i <inputfile> -o <outputfile>'
+    sys.exit(2)
   parse(inputfile, outputfile)
 
 if __name__ == "__main__":
