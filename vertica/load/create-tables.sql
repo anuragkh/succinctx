@@ -1,6 +1,5 @@
 create table part (
-
-    p_partkey       serial,
+    p_partkey       integer,
     p_name          varchar(55),
     p_mfgr          char(25),
     p_brand         char(10),
@@ -12,7 +11,7 @@ create table part (
 );
 
 create table supplier (
-    s_suppkey       serial,
+    s_suppkey       integer,
     s_name          char(25),
     s_address       varchar(40),
     s_nationkey     integer not null, -- references n_nationkey
@@ -22,7 +21,7 @@ create table supplier (
 );
 
 create table orders (
-    o_orderkey      serial,
+    o_orderkey      integer,
     o_custkey       integer not null, -- references c_custkey
     o_orderstatus   char(1),
     o_totalprice    decimal,
