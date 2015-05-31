@@ -5,34 +5,31 @@ import sys, getopt, json
 def tanl2json(inp, out):
   ofp = open(out,'w')
   with open(inp) as ifp:
-    line_no = 0
 
     wiki_id = ''
     wiki_url = ''
     wiki_title = ''
     wiki_text = ''
     for line in ifp:
-      if line_no % 3 == 0:
+      if '<doc' in line:
         header = line.strip()
         header = header[header.find('"') + 1:]
-        wiki_id = header[:header.find('"')].encode('ascii', 'ignore')
+        wiki_id = header[:header.find('"')].decode('ascii', 'ignore')
         header = header[header.find('"') + 1:]
-        wiki_url = header[:header.find('"')].encode('ascii', 'ignore')
         header = header[header.find('"') + 1:]
-        wiki_title = header[:header.find('"')].encode('ascii', 'ignore')
-        print wiki_id
-        print wiki_url
-        print wiki_title
-      elif line_no % 3 == 1:
+        wiki_url = header[:header.find('"')].decode('ascii', 'ignore')
+        header = header[header.find('"') + 1:]
+        header = header[header.find('"') + 1:]
+        wiki_title = header[:header.find('"')].decode('ascii', 'ignore')
+      elif not ('</doc>' in line):
         wiki_text = line.strip()
-      elif line_no % 2 == 2:
-        article = dict(id=wiki_id, url=url, title=wiki_title, text=wiki_text)
-        #ofp.write(json.dumps(article, encoding='utf-8') + '\n')
-        wiki_id = ''
-        wiki_url = ''
-        wiki_title = ''
-        wiki_text = ''
-      line_no += 1
+        article = dict(_id=wiki_id, url=wiki_url, title=wiki_title, text=wiki_text)
+        print "[%s] %s" % (wiki_id, wiki_title)
+    	ofp.write(json.dumps(article, encoding='utf-8') + '\n')
+    	wiki_id = ''
+    	wiki_url = ''
+    	wiki_title = ''
+    	wiki_text = ''
   ofp.close()
 
 def main(argv):
