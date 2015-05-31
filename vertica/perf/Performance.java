@@ -61,9 +61,10 @@ public class Performance {
 					ResultSet res = stmt.executeQuery(query);
 					while(res.next()) count++;
 					tdiff = (System.nanoTime() - t0) / 1000;
-					resWriter.write(i + "\t" + j + "\t" + count + "\t" + tdiff);
+					resWriter.write(i + "\t" + j + "\t" + count + "\t" + tdiff + "\n");
 				} catch (Exception e) {
 					System.err.println("Malformed query\n");
+					e.printStackTrace();
 				}
 			}
 		}
