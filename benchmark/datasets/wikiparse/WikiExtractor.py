@@ -102,23 +102,18 @@ class WikiCleanerThread(threading.Thread):
         
         colon = wiki_title.find(':')
         if colon < 0 or wiki_title[:colon] in acceptedNamespaces:
-            print "[%s] [%s]" % (wiki_id.encode('utf-8'), wiki_title.encode('utf-8'))        
+            print "[%s] [%s]" % (wiki_id.encode('ascii', 'ignore'), wiki_title.encode('ascii', 'ignore'))
         
             url = self._geturl(wiki_id)    
         
             if self._output_format == TANL:
-                header = '<doc id="%s" url="%s" title="%s">%s\n' % (wiki_id, url, wiki_title, wiki_title)
-                body = ' '.join(compact(clean(wiki_text))).strip()
-                footer = "\n</doc>"
-                self._outfile.write(header.encode("utf-8")) 
-                self._outfile.write(body.encode("utf-8"))
-                self._outfile.write(footer.encode("utf-8"))        
-            
+                csv = '|%s|%s|%s|%s|\n' % (wiki_id.encode('ascii', 'ignore'), url.encode('ascii', 'ignore'), wiki_title.encode('ascii', 'ignore'), ' '.join(compact(clean(wiki_text))).strip())
+                self._outfile.write(csv.encode("utf-8"))
             elif self._output_format == JSON:
                 if self._output_clean:
-                  article = dict(id=wiki_id, url=url, title=wiki_title, text=' '.join(compact(clean(wiki_text))).strip())
+                  article = dict(_id=wiki_id, url=url, title=wiki_title, text=' '.join(compact(clean(wiki_text))).strip())
                 else:
-                  article = dict(id=wiki_id, url=url, title=wiki_title, text=wiki_text)
+                  article = dict(_id=wiki_id, url=url, title=wiki_title, text=wiki_text)
                 self._outfile.write(json.dumps(article, encoding='utf-8') + '\n')
         
         if self._outfile.tell() > self._maxfilesize:
