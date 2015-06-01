@@ -17,16 +17,15 @@ def load_data(jsonfile, index, doc_type):
       else:
         doc_id = str(doc_no)
       
-      try:
-      	res = es.index(index=index, doc_type=doc_type, id=doc_id, body=doc)
-      except:      	
-      	res = {'created' : False }
+      res = es.index(index=index, doc_type=doc_type, id=doc_id, body=doc)
 
       if res['created']:
       	doc_no += 1
       else:
       	print "Error inserting document: " + line
       	doc_failed += 1
+      if doc_no % 10000 == 0:
+        print "Inserted: %s Failed: %d" % (doc_no, doc_failed)
   print "Finished! Inserted: %d Failed: %d" % (doc_no, doc_failed)
 
 def main(argv):
