@@ -16,7 +16,12 @@ def load_data(jsonfile, index, doc_type):
         doc_id = doc['_id']
       else:
         doc_id = str(doc_no)
-      res = es.index(index=index, doc_type=doc_type, id=doc_id, body=doc)
+      
+      try:
+      	res = es.index(index=index, doc_type=doc_type, id=doc_id, body=doc)
+      except:      	
+      	res = {'created' : False }
+
       if res['created']:
       	doc_no += 1
       else:
