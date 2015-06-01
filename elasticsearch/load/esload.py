@@ -16,8 +16,10 @@ def load_data(jsonfile, index, doc_type):
       else:
         doc_id = str(doc_no)
       res = es.index(index=index, doc_type=doc_type, id=doc_id, body=doc)
-      print(res['created'])
-      doc_no += 1
+      if res['created']:
+      	doc_no += 1
+      else:
+      	print "Error inserting document: " + line
 
 def main(argv):
   jsonfile = ''
