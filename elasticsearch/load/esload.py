@@ -8,6 +8,7 @@ es = Elasticsearch()
 
 def load_data(jsonfile, index, doc_type):
   doc_no = 1
+  doc_failed = 0
   with open(jsonfile) as ifp:
     for line in ifp:
       doc = json.loads(line)
@@ -20,6 +21,8 @@ def load_data(jsonfile, index, doc_type):
       	doc_no += 1
       else:
       	print "Error inserting document: " + line
+      	doc_failed += 1
+  print "Finished! Inserted: %d Failed: %d" % (doc_no, doc_failed)
 
 def main(argv):
   jsonfile = ''
