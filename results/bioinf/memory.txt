@@ -1,0 +1,2 @@
+0   ScanProsite 8.33829 
+1   Succinct    7.00068

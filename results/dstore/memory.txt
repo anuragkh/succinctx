@@ -1,0 +1,3 @@
+0   Elasticsearch   13.536  
+1   MongoDB 15.439  
+2   SuccinctX   7.105
