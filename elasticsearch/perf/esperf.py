@@ -19,9 +19,9 @@ def bench_query_latency(queryfile, index, doc_type, repeat):
       for i in range(0, repeat):
         count = 0
         start = datetime.now()
-        res = es.search(index=index, body={"query": {"regexp": { "text" : query}}}, fields = [], size=4807388)
+        res = es.search(index=index, body={"query": {"regexp": { "text" : query}}}, fields = [], size=4807388, query_cache=False)
         for hit in res['hits']['hits']:
-          count += 1
+	  count += 1
         end = datetime.now()
         diff = end - start
         print "Query %d iteration %d completed; took %d microseconds for %d documents." % (qid, i, us(diff), count)
